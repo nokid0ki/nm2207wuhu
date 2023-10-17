@@ -1,0 +1,459 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Challenge-2},
+  pdfauthor={Insert your name here},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Challenge-2}
+\author{Insert your name here}
+\date{2023-08-21}
+
+\begin{document}
+\maketitle
+
+Welcome! Hope you have watched the lecture videos and followed the
+instructions in code-along. Go through the steps described below,
+\emph{carefully}. It is totally fine to get stuck - ASK FOR HELP; reach
+out to your friends, TAs, or the discussion forum on Canvas.
+
+~
+
+Here is what you have to do,
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Pair with a neighbor and work
+\item
+  Download the \texttt{Challenge-2.Rmd} and \texttt{playlist\_data.csv}
+  files from Canvas
+\item
+  Move the downloaded files to the folder, ``Week-2''
+\item
+  Set it as the working directory
+\item
+  Edit content wherever indicated
+\item
+  Remember to set \texttt{eval=FALSE} after completing the code to
+  generate the output
+\item
+  Ensure that \texttt{echo=TRUE} so that the code is rendered in the
+  final document
+\item
+  Inform the tutor/instructor upon completion
+\item
+  Submit the document on Canvas after they approve
+\item
+  Attendance will be marked only after submission
+\item
+  Once again, do not hesitate to reach out to the tutors/instructor, if
+  you are stuck
+\end{enumerate}
+
+\hypertarget{i.-exploring-music-preferences}{%
+\section{I. Exploring music
+preferences}\label{i.-exploring-music-preferences}}
+
+\hypertarget{a.-background}{%
+\subsubsection{A. Background}\label{a.-background}}
+
+Imagine that you have been hired as a data analyst by a radio station to
+analyze music preferences of their DJs. They have provided you with a
+dataset, \texttt{playlist\_data.csv}, containing information about DJs,
+their preferred music genres, song titles, and ratings.
+
+Using the data-set you are required to complete some tasks that are
+listed subsequently. All these tasks are based on the concepts taught in
+the video lectures. The questions may not be entirely covered in the
+lectures; To complete them, you are encouraged to use Google and the
+resources therein.
+
+\hypertarget{b.tasks}{%
+\subsubsection{B.Tasks}\label{b.tasks}}
+
+\hypertarget{task-1}{%
+\paragraph{Task-1}\label{task-1}}
+
+In the lecture, we used two data-sets, \texttt{starwars} and
+\texttt{anscombe\textquotesingle{}s\ quartet} that were readily
+available with the packages, \texttt{tidyverse} and \texttt{Tmisc},
+respectively. When we have to use custom-made data-sets or the ones like
+we downloaded from Canvas, we have to import it using the R commands
+before using them. All the questions below are related to this task.
+
+\textbf{Question 1.1:} What does the term ``CSV'' in
+\texttt{playlist\_data.csv} stand for, and why is it a popular format
+for storing tabular data?
+
+\textbf{Solution:} A CSV stands for comma-separated values file. It is a
+simple, compact, and common way to store data. Not only that, it is
+compatible with all types of spreadsheets. \textbf{Question 1.2:} load
+the \texttt{tidyverse} package to work with \texttt{.csv} files in R.
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the necessary package to work with CSV files in R.}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 1.3:} Import the data-set, \texttt{playlist\_data.csv}
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Import the "playlist\_data.csv" dataset into R }
+
+\FunctionTok{read\_csv}\NormalTok{(}\StringTok{"playlist\_data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 1.4:} Assign the data-set to a variable,
+\texttt{playlist\_data}
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign the variable to a dataset }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Music\_Genre \textless{}{-} read\_csv("playlist\_data.csv")}
+\NormalTok{DJ\_Name \textless{}{-} read\_csv("playlist\_data.csv")}
+\NormalTok{Location \textless{}{-} read\_csv("playlist\_data.csv")}
+\NormalTok{Rating \textless{}{-} read\_csv("playlist\_data.csv")}
+\NormalTok{Age \textless{}{-} read\_csv("playlist\_data.csv")}
+\NormalTok{Plays\_Per\_Week \textless{}{-} read\_csv("playlist\_data.csv")}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{From now on, you can use the name of the variable to view the
+contents of the data-set}
+
+\textbf{Question 1.5:} Get more information about \texttt{read\_csv()}
+command and provide a screenshot of the information displayed in the
+``Help'' tab of the ``Files'' pane
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# More information about the R command, complete the code}
+
+\NormalTok{?}\FunctionTok{read\_csv}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(}\StringTok{"help.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 1.6:} What does the \texttt{skip} argument in the
+read\_csv() function do?
+
+\textbf{Solution:} The `skip' argument tells R to ignore a specified
+number of rows inside the Excel sheets you're trying to pull data from.
+
+\textbf{Question 1.7:} Display the contents of the data-set
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Type the name of the variable, to see what it contains}
+
+\NormalTok{DJ\_Name}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 1.8:} Assume you have a CSV file named
+\texttt{sales\_data.csv} containing information about sales
+transactions. How would you use the \texttt{read\_csv()} function to
+import this file into R and store it in a variable named
+\texttt{sales\_data}?
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# No output is required for this code}
+\CommentTok{\# Only the list of commands that execute the task mentioned in the question are required}
+
+\FunctionTok{read\_csv}\NormalTok{(sales\_data.csv)}
+\NormalTok{sales\_data }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(sales\_data.csv)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{task-2}{%
+\paragraph{Task-2}\label{task-2}}
+
+After learning to import a data-set, let us explore the contents of the
+data-set through the following questions
+
+\textbf{Question 2.1:} Display the first few rows of the data-set to get
+an overview of its structure
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Type the name of the variable we assigned the data{-}set to}
+\FunctionTok{head}\NormalTok{(DJ\_Name)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 2.2:} Display all the columns of the variable stacked
+one below another
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Stack columns of playlist\_data}
+
+\FunctionTok{stack}\NormalTok{(DJ\_Name)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 2.3:} How many columns are there in the dataset?
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Number of columns}
+
+\FunctionTok{ncol}\NormalTok{(playlist\_data)}
+
+\NormalTok{There are }\DecValTok{7}\NormalTok{ columns}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 2.4:} What is the total count of DJs?
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Number of DJs}
+
+\FunctionTok{nrow}\NormalTok{(playlist\_data)}
+
+\NormalTok{There are }\DecValTok{26}\NormalTok{ DJs}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 2.5:} Display all the location of all the DJs
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Location of DJs}
+
+\FunctionTok{unique}\NormalTok{(playlist\_data[}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Location\textquotesingle{}}\NormalTok{)], }\AttributeTok{incomparables=}\ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 2.6:} Display the age of the DJs
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Age of DJs}
+
+\NormalTok{playlist\_data[}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}DJ\_Name\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Age\textquotesingle{}}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{task-3}{%
+\paragraph{Task-3}\label{task-3}}
+
+Let us plot the data to get more insights about the DJs.
+
+\textbf{Question 3.1:} Create a plot to visualize the relationship
+between DJs' ages and their ratings.
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# complete the code to generate the plot}
+
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ playlist\_data) }
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 3.2:} Label the x-axis as ``Age'' and the y-axis as
+``Rating.''
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# complete the code to generate the plot}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{playlist\_data,}\AttributeTok{mapping=}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Age,}\AttributeTok{y=}\NormalTok{Rating))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 3.3:} Represent data using points
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# complete the code to generate the plot}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{playlist\_data,}\AttributeTok{mapping=}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Age,}\AttributeTok{y=}\NormalTok{Rating)) }\SpecialCharTok{+}
+ \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 3.4:} Can you change the points represented by
+dots/small circles to any other shape of your liking?
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# complete the code to generate the plot}
+
+\NormalTok{?geom\_point}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{playlist\_data,}\AttributeTok{mapping=}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Age,}\AttributeTok{y=}\NormalTok{Rating)) }\SpecialCharTok{+}
+\FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{shape =} \DecValTok{5}\NormalTok{, }\AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{stroke =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Question 3.5:} Insert a suitable title and briefly provide your
+insights in the caption
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# complete the code to generate the plot}
+
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{playlist\_data,}\AttributeTok{mapping=}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Age,}\AttributeTok{y=}\NormalTok{Rating)) }\SpecialCharTok{+}
+   \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x=}\StringTok{"Age"}\NormalTok{,}\AttributeTok{y=}\StringTok{"Ratings"}\NormalTok{,}
+ \AttributeTok{title=}\StringTok{"Does the age of the DJ affect their ratings?"}\NormalTok{,}
+ \AttributeTok{caption=}\StringTok{"There is no correlation."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

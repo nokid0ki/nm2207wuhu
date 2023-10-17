@@ -1,0 +1,11 @@
+"0","# View the columns stacked one below another
+glimpse(loans)
+"
+"1","Rows: 10,000"
+"1",""
+"1","
+"
+"1","Columns: 0"
+"1",""
+"1","
+"

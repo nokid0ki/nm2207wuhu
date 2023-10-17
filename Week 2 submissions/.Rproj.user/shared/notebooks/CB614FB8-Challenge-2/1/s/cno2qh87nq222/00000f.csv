@@ -1,0 +1,8 @@
+"0","# Stack columns of playlist_data"
+"0",""
+"0","""columns"" <- (colnames(playlist_data,prefix=""col"")"
+"0","as.data.frame(""columns"")"
+"2","Error: unexpected symbol in:
+""""columns"" <- (colnames(playlist_data,prefix=""col"")
+as.data.frame""
+"

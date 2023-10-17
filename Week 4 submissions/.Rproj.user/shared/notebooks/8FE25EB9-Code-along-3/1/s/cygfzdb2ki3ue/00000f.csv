@@ -1,0 +1,5 @@
+"0","# Catch a glimpse of the data-set: see how the rows are stacked one below another
+glimpse(loans_full_schema)
+"
+"2","Error: object 'loans_full_schema' not found
+"

@@ -1,0 +1,7 @@
+"0","#Challenge"
+"0",""
+"0","newbillboard <- billboard %>%"
+"0","  pivot_longer(cols = starts_with(""wk""), "
+"0","               names_to = ""week"", "
+"0","               values_to = ""rank"")"
+"0","newbillboard"
