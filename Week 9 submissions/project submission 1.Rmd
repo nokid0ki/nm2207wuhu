@@ -1,0 +1,21 @@
+---
+title: "Project submission 1"
+author: "Niki"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(1) What is the topic that you have finalized? (Answer in 1 or 2 sentences),
+
+The topic I've selected is regarding songs on Spotify. I'm interested in investigating what makes a song popular on the platform.
+
+(2) What are the data sources that you have curated so far? (Answer 1 or 2 sentences).
+
+Primarily, I found a data set on Kaggle that directly fits my problem statement!
+Link: https://www.kaggle.com/datasets/nelgiriyewithana/top-spotify-songs-2023
