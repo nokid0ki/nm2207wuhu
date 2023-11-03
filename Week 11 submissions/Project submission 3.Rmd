@@ -1,0 +1,63 @@
+---
+title: "Project submission 3"
+author: "Niki"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Topic changed!! So new entries!**
+
+**(1) What is the topic that you have finalized? (Answer in 1 or 2 sentences),**
+
+The topic I've selected to work on is to analyse HDB rental prices in Singapore.
+
+**(2) What are the data sources that you have curated so far? (Answer 1 or 2 sentences).**
+
+For data visualisation, I intend to do an interactive hover map. I'll be using the API data set from: https://www.onemap.gov.sg/apidocs/apidocs (Planning Area Polygon), to obtain the coordinates of the different towns in Singapore.
+
+As for rental data, I will be using: https://beta.data.gov.sg/collections/166/view
+
+I have not sourced for other data sets at the moment, but will do if need be!
+
+**(3) What is the question that you are going to answer? (Answer: One sentence that ends with a question mark that could act like the title of your data story),**
+
+Looking to rent a HDB flat in Singapore? Let’s see what’s the best for you!
+
+**(4) Why is this an important question? (Answer: 3 sentences, each of which has some evidence, e.g., “According to the United Nations...” to justify why the question you have chosen is important),**
+
+It'll be important to anyone looking for a more affordable place to stay in Singapore in comparison to condominiums or landed properties. Given that rental prices are increasing, it indirectly correlates to an increasing demand for rental properties.
+
+Source: https://buycondo.sg/rental-market-in-singapore-2023-2024/#:~:text=The%20renter%20market%20is%20booming,with%20the%20Rising%20Interest%20Rates.
+
+
+**(5) Which rows and columns of the dataset will be used to answer this question? (Answer: Actual names of the variables in the dataset that you plan to use). Include the challenges and errors that you faced and how you overcame them.**
+I will be looking at slicing the data into towns first - and then analyse the number of flat types (eg no of 1-room, 2-room etc), and also the average pricing per room type per estate. Thereafter, if there is indeed a trend that certain estates are more expensive than others, I may include another data set showing whether there is a correlation between transport nodes and rental prices based on estate.
+
+The challenge so far is trying to load the map onto R... I have been Struggling, but thankful to the many resources on YouTube and other GitHub posts on how to do it! I have yet to clean this set of data, I'm looking to merge the rental data with the map data... 
+
+**(6) List the visualizations that you are going to use in your project (Answer: What are the variables that you are going to plot? How will it answer your larger question?)**
+a) A map plotting town coordinates and monthly rent
+
+b) Bar chart plotting room type and monthly rent
+
+c) Line graph plotting year and monthly rent (to show trend, pending data set)
+
+d) A map plotting transport nodes on top of the map with town coordinates
+
+
+**(7) How do you plan to make it interactive? (Answer: features of ggplot2/shiny/markdown do you plan to use to make the story interactive) 
+a) A map where you can hover to get the bite sized information on average rental price (draft already on the website!)**
+
+b) An animated gg-plot showing how rental price trends (pending data set)
+
+c) Interactive bar charts
+
+**(8) What concepts incorporated in your project were taught in the course and which ones were self-learnt?**
+Concepts learnt from module: GG-Plot, Shiny, Cleaning data through manipulation and creating new data frames
+Self-learnt: Map making!
