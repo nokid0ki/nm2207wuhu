@@ -1,0 +1,305 @@
+---
+title: Looking to rent a HDB flat in Singapore? 🏠
+execute: 
+  echo: false
+format: html
+editor: visual
+---
+
+We will investigate the average rental prices of HDB flats and its trends. The scope of this analysis involves rental prices between 2021 to 2023, covering 1 to 5 room and executive flats. The data set used is publicly available [here](https://beta.data.gov.sg/collections/166/view)! 😆 All the graphs here are interactive, feel free to hover of them to get the relevant data.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sf)
+library(mapview)
+library(rvest)
+library(httr)
+library(dplyr)
+library(leaflet)
+library(plotly)
+library(highcharter)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE, results='hide'}
+
+test <- read_sf(here::here("MP14_PLNG_AREA_NO_SEA_PL.kml"))
+
+keke <- read_csv("RentingOutofFlats.csv", col_types = cols(
+  rent_approval_date = col_character(),
+  town = col_character(),
+  block = col_character(),
+  street_name = col_character(),
+  flat_type = col_character(),
+  monthly_rent = col_double()
+))
+
+rental <- keke %>%
+  group_by(town) %>%
+  summarize(mean_monthly_rent = mean(monthly_rent))
+
+rental1 <- rental %>%
+  rename(Name = town)
+
+meep <- st_read(dsn = "MP14_PLNG_AREA_NO_SEA_PL.kml")
+
+meep_sf <- st_as_sf(meep[c("Name", "geometry")])
+meep_sf <- st_set_crs(meep_sf, 3414)
+
+meep_sub <- meep_sf %>%
+  select(geometry)
+
+merged_data <- merge(meep_sf, rental1, by.x = "Name", by.y = "Name")
+
+# Finding average price of each type of flat
+room <- keke %>%
+  select(flat_type,monthly_rent) %>%
+  group_by(flat_type) %>%
+  summarise(mean_monthly_rent1 = mean(monthly_rent))
+
+# Scatterplot analysis
+# Calculate percentages
+
+timetravel <- read_csv("timetravel.csv")
+
+timetravelarea <- timetravel %>%
+  left_join(rental1, by = c("Planning_Area" = "Name"))
+
+percent_timetravel <- timetravel
+percent_timetravel[, -1] <- percent_timetravel[, -1] / percent_timetravel$Total_Pop * 100
+
+# Round percentages to 1 decimal place
+percent_timetravel[, -1] <- round(percent_timetravel[, -1], 2)
+
+percent_timetravelarea <- percent_timetravel %>%
+  left_join(rental1, by = c("Planning_Area" = "Name"))
+
+data_long <- percent_timetravelarea %>% 
+  pivot_longer(
+    cols = c(Up_To_15_Mins, "16_to_30_Mins", "31_to_45_Mins", "46_to_60_Mins", More_Than_60_Mins),
+    names_to = "TimeToWork",
+    values_to = "Percentage"
+  )
+
+
+```
+
+### **Prices against type of flat** 🛏
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+plot_ly(keke, y = ~monthly_rent, color = ~flat_type, type = "box") %>% layout(
+    xaxis = list(title = "Flat Type"),
+    yaxis = list(title = "Monthly Rent"),
+    plot_bgcolor = "#ededff",   
+    paper_bgcolor = "#ededff",
+    annotations = list(
+      list(
+        x = 0.5,
+        y = 1.05, 
+        text = "Hover over the box plots for more details",
+        showarrow = FALSE,
+        xref = "paper",
+        yref = "paper"
+      )
+    )
+  )
+
+```
+
+<br> Intuitively, the mean prices for 1-room flats would be the cheapest, and executive flats being the most expensive. However, the increment in price plateaus as the size of the HDB flat increases. As seen, the price increase between a 4-room and a 5-room flat is 4%, whereas the price increase between a 1-room and 2-room flat is 26%.
+
+If space is a concern, and you're deciding between a 4-room and a 5-room, it's more worthwhile to rent a 5-room flat.
+
+### **A heat map of mean rental prices in each planning area**📍
+
+Hover over the area to view the planning area, and click upon it to view the mean rental price!
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+merged_data <- meep_sf %>%
+  left_join(rental1, by = c("Name" = "Name"))
+
+popup_content <- sprintf(
+  "Town: %s<br>Mean Monthly Rent: $%.2f",
+  merged_data$Name,
+  merged_data$mean_monthly_rent
+)
+
+heatmap_map <- mapview(merged_data, zcol = "mean_monthly_rent", label="Name", popup = popup_content, layer.name = 'Mean Rental Price (SGD)')
+
+
+heatmap_map
+
+```
+
+<br> As we can see, Bukit Timah and Bukit Bukit Merah has the mean highest rental costs! In comparison to Yishun, where rent is on average \$400 cheaper per month.
+
+But the proportion of room types could be affecting the mean prices of each region. We will then explore the distribution of the different types of HDBs available in each area.
+
+Data set for the polygon's coordinates can be found [here](https://beta.data.gov.sg/collections/2104/view)!
+
+### **Distribution of different HDB types across planning areas** 📊
+
+Double click on the legend to isolate the layer.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+kekesubset <- keke %>%
+  select(town,flat_type) %>%
+  group_by(town, flat_type) %>%
+  summarise(count=n())
+
+region_mapping <- c(
+  "ANG MO KIO" = "North-East",
+  "BEDOK" = "East",
+  "BISHAN" = "Central",
+  "BUKIT BATOK" = "West",
+  "BUKIT MERAH" = "West",
+  "BUKIT PANJANG" = "West",
+  "BUKIT TIMAH" = "Central",
+  "CENTRAL" = "Central",
+  "CHOA CHU KANG" = "West",
+  "CLEMENTI" = "West",
+  "GEYLANG" = "Central",
+  "HOUGANG" = "North-East",
+  "JURONG EAST" = "West",
+  "JURONG WEST" = "West",
+  "KALLANG/WHAMPOA" = "Central",
+  "MARINE PARADE" = "Central",
+  "PASIR RIS" = "East",
+  "PUNGGOL" = "North-East",
+  "QUEENSTOWN" = "Central",
+  "SEMBAWANG" = "North",
+  "SENGKANG" = "North-East",
+  "SERANGOON" = "North-East",
+  "TAMPINES" = "East",
+  "TOA PAYOH" = "Central",
+  "WOODLANDS" = "North",
+  "YISHUN" = "North")
+
+kekesubset$region <- region_mapping[kekesubset$town]
+
+#Segregating bar graphs into different regions
+north <- kekesubset %>%
+  filter(region=="North") %>%
+  group_by(town, flat_type) %>%
+  summarize(total_count = sum(count))
+
+northeast <- kekesubset %>%
+  filter(region=="North-East") %>%
+  group_by(town, flat_type) %>%
+  summarize(total_count = sum(count))
+
+east <- kekesubset %>%
+  filter(region=="East") %>%
+  group_by(town, flat_type) %>%
+  summarize(total_count = sum(count))
+
+west <- kekesubset %>%
+  filter(region=="West") %>%
+  group_by(town, flat_type) %>%
+  summarize(total_count = sum(count))
+
+central <- kekesubset %>%
+  filter(region=="Central") %>%
+  group_by(town, flat_type) %>%
+  summarize(total_count = sum(count))
+
+totalcount <- kekesubset %>%
+  group_by(flat_type) %>%
+  summarize(total_count=sum(count))
+
+#Adding year column
+keke <- keke %>%
+  mutate(year = substr(rent_approval_date, 1, 4)) 
+
+trend <- keke %>%
+  group_by(town,year) %>%
+  summarize(mean_monthly_rent = mean(monthly_rent))
+
+trend$mean_monthly_rent <- round(trend$mean_monthly_rent, 2)
+
+#Adding another column
+trendmonth <- keke %>%
+  group_by(town,rent_approval_date) %>%
+  summarize(mean_monthly_rent2 = mean(monthly_rent))
+
+trendmonth$region <- region_mapping[trendmonth$town]
+
+northtrend <- trendmonth %>%
+  filter(region=="North")
+
+easttrend <- trendmonth %>%
+  filter(region=="East")
+
+westtrend <- trendmonth %>%
+  filter(region=="West")
+
+central <- trendmonth %>%
+  filter(region=="Central")
+
+northeasttrend <- trendmonth %>%
+  filter(region=="North-East")
+
+
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+hchart(totalcount, "pie", hcaes(x = flat_type, y = total_count)) %>%
+  hc_title(text = "Overall Total Count of Flat Types") %>%
+  hc_legend(align = "right", layout = "vertical") %>%
+  hc_chart(type = "bar", backgroundColor = "#ededff") %>%
+  hc_plotOptions(
+    pie = list(
+      dataLabels = list(
+        enabled = TRUE,
+        format = '<b>{point.name}</b>: {point.percentage:.2f}%'
+      )
+    )
+  )
+
+```
+
+<iframe height="480" width="100%" frameborder="no" src="https://nokid0ki.shinyapps.io/Project-App/">
+
+</iframe>
+
+Generally, 4-room flats are the most abundant type of HDB rental. Looking at Bukit Timah, majority of the rental flats on sale are 4-room type flats (not even executive) and yet the average rental price is so high! The area is known to be expensive, a HDB mansionette in the area was sold for [SGD1.3m](https://goodyfeed.com/bukit-timah-resale-flat/).
+
+On the flip side, 4-room flats also make up the majority in Yishun. Cheaper prices could be due to the fact that Yishun is not [yet a mature estate](https://www.propertyguru.com.sg/property-investment-questions/why-the-bto-price-230k-only-for-4-room-in-yishun-is-so-cheap-will-this-affect-the-ec-or-condo-price-near-yishun-any-new-development-near-yishun-265079#:~:text=Yishun%20is%20not%20considered%20a,in%20Yishun%20are%20also%20lower.), whereas Bukit Timah is indeed one.
+
+### **Trend in rental prices over the 3 years** 📈
+
+<iframe height="480" width="100%" frameborder="no" src="https://nokid0ki.shinyapps.io/trend_application/">
+
+</iframe>
+
+Despite the limitation of the data set having only 3 years of data, it is evident that there is a consistent increasing trend across all planning areas. Further, it is observed that the increase in rental prices are relatively unanimous across all towns as well.
+
+Zooming into Bukit Timah and Central prices fluctuate the most, with the lowest dip at SGD2,057.14 in August 2021, and the highest peak at SGD3,712 in June 2023.
+
+### **Travelling time to work vs prices of rental?** 🧑‍💼
+
+Double click on the legend to isolate the layer.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+scatter_plot <- plot_ly(data_long, x = ~mean_monthly_rent, y = ~Percentage, text = ~Planning_Area, color = ~TimeToWork, type = "scatter", mode = "markers") %>%
+  layout(
+    xaxis = list(title = "Mean Monthly Rent"),
+    yaxis = list(title = "% of who takes n minutes to travel to work"),
+    plot_bgcolor = "#ededff",
+    paper_bgcolor = "#ededff"
+  )
+
+scatter_plot
+
+```
+
+<br> When we look at the figure as a whole, there does not seem to be a direct correlation between how long it takes to get to work and the mean monthly rent. I guess everyone just needs a place to stay hahah.
+
+BUT! Looking at Bukit Timah again, almost 50% of residents take between 15 to 30 minutes to get to work. Contrasting Yishun where only 25% take the same amount of time to get to work. Interesting? Intuitively, prices of properties closer to the central of Singapore are more expensive. Further, most Singaporeans work at the [Downtown Core](https://officefinder.com.sg/where-are-the-top-10-workplaces-in-singapore/). And Bukit Timah is definitely closer there than Yishun.
+
+### **Conclusion**
+
+All in all, there is an overall increasing trend in rental prices regardless of location. If space is a concern, picking a 5-room flat could prove a more worthwhile spending than a 4-room flat as per above. Cheapest rentals are available at Yishun, Ang Mo Kio, and Bedok.
+
+I hope this helps you understand the rental prices in Singapore a bit more, thank you!
